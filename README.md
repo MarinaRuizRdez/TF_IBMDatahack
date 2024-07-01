@@ -1,7 +1,7 @@
 Informe de marketing de DH - IBM Datahack School
 Proyecto DH Consultores de Marketing - IBM Datahack 
 
-Curso Power BI (Abril-2024)
+Curso Power BI (Abril-2024).
  
 Autora: Marina Ruiz Rodriguez 
  
