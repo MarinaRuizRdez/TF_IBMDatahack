@@ -1,0 +1,88 @@
+﻿DEFINE 
+---- MODEL MEASURES BEGIN ----
+MEASURE Medidas[% Clientes Quejas] = 
+    DIVIDE(
+        SUM('f_Ventas'[Quejas (2 años)]),
+        COUNTROWS('f_Ventas')
+    )
+MEASURE Medidas[C. Catálogo] = AVERAGE('f_Ventas'[Nº Compras Catalogo])
+MEASURE Medidas[C. DTO] = AVERAGE('f_Ventas'[Nº Compras con DTO])
+MEASURE Medidas[C. Tienda] = AVERAGE('f_Ventas'[Nº Compras Tienda])
+MEASURE Medidas[C. Web] = AVERAGE('f_Ventas'[Nº Compras WEB])
+MEASURE Medidas[Compras Catálogo] = SUM('f_Ventas'[Nº Compras Catalogo])
+MEASURE Medidas[Compras Ofertas] = SUM('f_Ventas'[Nº Compras con DTO])
+MEASURE Medidas[Compras Tienda] = SUM('f_Ventas'[Nº Compras Tienda])
+MEASURE Medidas[Compras Web] = SUM('f_Ventas'[Nº Compras WEB])
+MEASURE Medidas[Cto Ventas x Año] = 
+    (SUM('f_Ventas'[Vinos]) + SUM('f_Ventas'[Frutas]) + SUM('f_Ventas'[Cárnicos]) +
+     SUM('f_Ventas'[Pescados]) + SUM('f_Ventas'[Dulces]) + SUM('f_Ventas'[Oro]))
+    - CALCULATE(
+        SUM('f_Ventas'[Vinos]) + SUM('f_Ventas'[Frutas]) + SUM('f_Ventas'[Cárnicos]) +
+        SUM('f_Ventas'[Pescados]) + SUM('f_Ventas'[Dulces]) + SUM('f_Ventas'[Oro]),
+        DATEADD('d_Calendar'[Date], -1, YEAR)
+      )
+MEASURE Medidas[Max Cárnicos] = MAX('f_Ventas'[Cárnicos])
+MEASURE Medidas[Max Dulces] = MAX('f_Ventas'[Dulces])
+MEASURE Medidas[Max Frutas] = MAX('f_Ventas'[Frutas])
+MEASURE Medidas[Max Oro] = MAX('f_Ventas'[Oro])
+MEASURE Medidas[Max Pescados] = MAX('f_Ventas'[Pescados])
+MEASURE Medidas[Max Vinos] = MAX('f_Ventas'[Vinos])
+MEASURE Medidas[Nº Hijos] = 
+SUM(d_Clientes[Nº Niños]) +
+SUM(d_Clientes[Nº Adolescentes])
+MEASURE Medidas[P. Salario Anual] = 
+AVERAGE ( d_Clientes[Salario Anual] )
+MEASURE Medidas[P. Salario Mes] = DIVIDE([P. Salario Anual], 12)
+MEASURE Medidas[P. Visitas Web] = AVERAGE('f_Ventas'[Nº Visitas Web (Mes)])
+MEASURE Medidas[Prom. Hijos/as] = AVERAGE('d_Clientes'[Total Hijos])
+MEASURE Medidas[Quejas] = SUM('f_Ventas'[Quejas (2 años)])
+MEASURE Medidas[Ranking Campañas] = 
+RANKX ( ALL (f_Ventas), [Total Camp aceptadas],,DESC,Dense)
+MEASURE Medidas[Ranking Clientes] = 
+RANKX ( ALL (d_Clientes), [P. Salario Anual],,DESC,Skip)
+MEASURE Medidas[Ranking Plataformas] = 
+RANKX ( ALL (f_Ventas), [Total Compras Plataformas],,DESC,Dense)
+MEASURE Medidas[Ranking Ventas] = 
+RANKX ( ALL (f_Ventas), [Total Compras Productos],,DESC,Skip)
+MEASURE Medidas[Recencia] = AVERAGE('f_Ventas'[Ult. Compra días])
+MEASURE Medidas[T. Salario Año] = SUM(d_Clientes[Salario Anual])
+MEASURE Medidas[Total Camp aceptadas] = 
+    SUM(f_Ventas[Campaña 1]) +
+    SUM(f_Ventas[Campaña 2]) +
+    SUM(f_Ventas[Campaña 3]) +
+    SUM(f_Ventas[Campaña 4]) +
+    SUM(f_Ventas[Campaña 5]) +
+    SUM(f_Ventas[Resp- Ult. Camp (Target)])
+MEASURE Medidas[Total Camp sin target] = 
+    SUM(f_Ventas[Campaña 1]) +
+    SUM(f_Ventas[Campaña 2]) +
+    SUM(f_Ventas[Campaña 3]) +
+    SUM(f_Ventas[Campaña 4]) +
+    SUM(f_Ventas[Campaña 5]) 
+    
+MEASURE Medidas[Total Clientes] = COUNTROWS(f_Ventas)
+MEASURE Medidas[Total Compras Plataformas] = 
+SUM (f_Ventas[Nº Compras Catalogo]) +
+SUM (f_Ventas[Nº Compras Tienda]) +
+SUM (f_Ventas[Nº Compras WEB])
+MEASURE Medidas[Total Compras Productos] = 
+    SUM('f_Ventas'[Vinos]) +
+    SUM('f_Ventas'[Frutas]) +
+    SUM('f_Ventas'[Cárnicos]) +
+    SUM('f_Ventas'[Pescados]) +
+    SUM('f_Ventas'[Dulces]) +
+    SUM('f_Ventas'[Oro])
+MEASURE Medidas[V. Cárnicos] = AVERAGE('f_Ventas'[Cárnicos])
+MEASURE Medidas[V. Dulces] = AVERAGE('f_Ventas'[Dulces])
+MEASURE Medidas[V. Frutas] = AVERAGE('f_Ventas'[Frutas])
+MEASURE Medidas[V. Oro] = AVERAGE('f_Ventas'[Oro])
+MEASURE Medidas[V. Pescados] = AVERAGE('f_Ventas'[Pescados])
+MEASURE Medidas[V. Totales x Cliente] = 
+    AVERAGEX(
+        VALUES('f_Ventas'[ID]), 
+        [Total Compras Productos]
+    )
+MEASURE Medidas[V. Vinos] = AVERAGE('f_Ventas'[Vinos])
+MEASURE Medidas[Visitas Web Mes] = SUM('f_Ventas'[Nº Visitas Web (Mes)])
+---- MODEL MEASURES END ----
+
